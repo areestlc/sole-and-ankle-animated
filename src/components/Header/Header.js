@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { QUERIES, WEIGHTS } from '../../constants';
+import { QUERIES } from '../../constants';
 import Logo from '../Logo';
 import Icon from '../Icon';
 import UnstyledButton from '../UnstyledButton';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
 import VisuallyHidden from '../VisuallyHidden';
+import AnimatedNavLink from '../AnimatedNavLink/AnimatedNavLink';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -20,12 +21,12 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <AnimatedNavLinkWithStyling href="/sale">Sale</AnimatedNavLinkWithStyling>
+          <AnimatedNavLinkWithStyling href="/new">New&nbsp;Releases</AnimatedNavLinkWithStyling>
+          <AnimatedNavLinkWithStyling href="/men">Men</AnimatedNavLinkWithStyling>
+          <AnimatedNavLinkWithStyling href="/women">Women</AnimatedNavLinkWithStyling>
+          <AnimatedNavLinkWithStyling href="/kids">Kids</AnimatedNavLinkWithStyling>
+          <AnimatedNavLinkWithStyling href="/collections">Collections</AnimatedNavLinkWithStyling>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -114,16 +115,10 @@ const Filler = styled.div`
   }
 `;
 
-const NavLink = styled.a`
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-gray-900);
-  font-weight: ${WEIGHTS.medium};
-
+const AnimatedNavLinkWithStyling = styled(AnimatedNavLink)`
   &:first-of-type {
     color: var(--color-secondary);
   }
-`;
+`
 
 export default Header;

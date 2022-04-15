@@ -36,11 +36,11 @@ const ShoeCard = ({
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
-          {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
-          {variant === 'new-release' && (
-            <NewFlag>Just released!</NewFlag>
-          )}
         </ImageWrapper>
+        {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
+        {variant === 'new-release' && (
+          <NewFlag>Just released!</NewFlag>
+        )}
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
@@ -73,15 +73,38 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+  --ease-out-time: 400ms;
+  position: relative;
+`;
 
 const ImageWrapper = styled.div`
-  position: relative;
+  /* Used to crop zoomed in image */
+  overflow: hidden;
+  border-radius: 16px 16px 4px 4px;
+  transition: var(--ease-out-time) filter ease-in;
 `;
 
 const Image = styled.img`
   width: 100%;
-  border-radius: 16px 16px 4px 4px;
+  transition: transform var(--ease-out-time) ease-in;
+  display: block;
+  will-change: transform;
+  transform-origin: 50% 75%;
+
+  ${Link}:hover &,
+  ${Link}:focus & {
+    filter: drop-shadow(3px 3px 2px var(--color-gray-700));
+    transition: 150ms filter ease-out;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${Link}:hover &,
+    ${Link}:focus & {
+      transform: scale(1.1);
+      transition: 150ms ease-out;
+    }
+  }
 `;
 
 const Row = styled.div`
@@ -121,6 +144,15 @@ const Flag = styled.div`
   font-weight: ${WEIGHTS.bold};
   color: var(--color-white);
   border-radius: 2px;
+  transition: var(--ease-out-time) ease-in;
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${Link}:hover &,
+    ${Link}:focus & {
+      transform: scale(1.2) translateY(-10%);
+      transition: 150ms ease-out;
+    }
+  }
 `;
 
 const SaleFlag = styled(Flag)`
