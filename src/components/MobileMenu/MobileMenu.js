@@ -29,13 +29,11 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   const perLinkDelayInSeconds = 0.125;
 
   return (
-    <Overlay 
+    <Wrapper 
       isOpen={isOpen} 
       onDismiss={onDismiss}
-      style={{
-        backgroundColor: isOpen ? 'var(--color-backdrop)' : 'transparent'
-      }}
       >
+      <Backdrop />
       <Content aria-label="Menu">
         <CloseButton onClick={onDismiss}>
           <Icon id="close" />
@@ -66,18 +64,10 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
           })}
         </Footer>
       </Content>
-    </Overlay>
+    </Wrapper>
   );
 };
 
-const fadeIn = keyframes`
-  from {
-    background-color: transparent;
-  }
-  to {
-    background-color: var(--color-backdrop);
-  }
-`;
 
 const swing = keyframes`
   to {
@@ -85,7 +75,7 @@ const swing = keyframes`
   }
 `;
 
-const contentFadeIn = keyframes`
+const fadeIn = keyframes`
   from {
     opacity: 0;
   }
@@ -94,19 +84,25 @@ const contentFadeIn = keyframes`
   }
 `;
 
-const Overlay = styled(DialogOverlay)`
+const Wrapper = styled(DialogOverlay)`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: transparent;
-  transition: background-color;
-  transition-timing-function: ease-in;
-  transition-duration: 500ms;
   display: flex;
   justify-content: flex-end;
-  animation: ${fadeIn} 0.4s ease;
+`;
+
+const Backdrop = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-backdrop);
+  animation: ${fadeIn} 500ms;
 `;
 
 const slideIn = keyframes`
@@ -119,6 +115,7 @@ const slideIn = keyframes`
 `;
 
 const Content = styled(DialogContent)`
+  position: relative;
   background: white;
   width: 300px;
   height: 100%;
@@ -128,11 +125,14 @@ const Content = styled(DialogContent)`
   //animation: ${slideIn} 0.6s cubic-bezier(.12,.94,.38,1);
 
   transform-origin: right; /* equivalent to 100% 50% */
-  transform: perspective(200px) rotateY(-90deg);
-  animation: ${swing} 1s cubic-bezier(.12,.94,.38,1) forwards;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: perspective(200px) rotateY(-90deg);
+    animation: ${swing} 600ms cubic-bezier(.12,.94,.38,1) both;
+  }
 
   & * {
-    animation: ${contentFadeIn} 0.6s ease;
+    animation: ${fadeIn} 0.6s ease;
     //animation-delay: 0.35s;
     animation-fill-mode: backwards;
   }

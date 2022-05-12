@@ -21,12 +21,12 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <AnimatedNavLinkWithStyling href="/sale">Sale</AnimatedNavLinkWithStyling>
-          <AnimatedNavLinkWithStyling href="/new">New&nbsp;Releases</AnimatedNavLinkWithStyling>
-          <AnimatedNavLinkWithStyling href="/men">Men</AnimatedNavLinkWithStyling>
-          <AnimatedNavLinkWithStyling href="/women">Women</AnimatedNavLinkWithStyling>
-          <AnimatedNavLinkWithStyling href="/kids">Kids</AnimatedNavLinkWithStyling>
-          <AnimatedNavLinkWithStyling href="/collections">Collections</AnimatedNavLinkWithStyling>
+          <AnimatedNavLink href="/sale">Sale</AnimatedNavLink>
+          <AnimatedNavLink href="/new">New&nbsp;Releases</AnimatedNavLink>
+          <AnimatedNavLink href="/men">Men</AnimatedNavLink>
+          <AnimatedNavLink href="/women">Women</AnimatedNavLink>
+          <AnimatedNavLink href="/kids">Kids</AnimatedNavLink>
+          <AnimatedNavLink href="/collections">Collections</AnimatedNavLink>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -114,11 +114,5 @@ const Filler = styled.div`
     display: none;
   }
 `;
-
-const AnimatedNavLinkWithStyling = styled(AnimatedNavLink)`
-  &:first-of-type {
-    color: var(--color-secondary);
-  }
-`
 
 export default Header;

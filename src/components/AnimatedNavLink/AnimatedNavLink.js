@@ -2,44 +2,61 @@ import React from "react";
 import styled from 'styled-components/macro';
 import { WEIGHTS } from '../../constants';
 
-const AnimatedNavLink = (props) => {
-  const NavText = styled.span`
-    font-size: 1.125rem;
-    text-transform: uppercase;
-    font-weight: ${WEIGHTS.medium};
-    color: inherit;
-    transition: transform 200ms;
-    display: block;
-  `;
-
-  const HoverNavText = styled(NavText)`
-    position: absolute;
-    font-weight: bold;
-    transform: translateY(30px);
-  `;
-
-  const NavLink = styled.a`
+const AnimatedNavLink = ({ children, ...delegated}) => {
+  const Wrapper = styled.a`
     position: relative;
     display: flex;
     flex-direction: column;
+
+    /* Used to hide the text being moved in/out */
     overflow: hidden;
     color: var(--color-gray-900);
     text-decoration: none;
     cursor: pointer;
 
-    &:hover ${NavText} {
-      transform: translateY(-30px);
-    }
-
-    &:hover ${HoverNavText} {
-      transform: translateY(0);
+    &:first-of-type {
+      color: var(--color-secondary);
     }
   `;
 
-  return <NavLink {...props}>
-    <NavText>{props.children}</NavText>
-    <HoverNavText>{props.children}</HoverNavText>
-  </NavLink>;
+  const Text = styled.span`
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    display: block;
+    transition: transform 500ms;
+    transform: translateY(
+      var(--translate-from)
+    );
+
+    @media (prefers-reduced-motion: no-preference) {
+      ${Wrapper}:hover & {
+        transition: transform 250ms;
+        transform: translateY(
+          var(--translate-to)
+        );
+      }
+    }
+  `;
+
+  const MainText = styled(Text)`
+    --translate-from: 0%;
+    --translate-to: -100%;
+    font-weight: ${WEIGHTS.medium};
+  `;
+
+  const HoverText = styled(Text)`
+    --translate-from: 100%;
+    --translate-to: 0%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: ${WEIGHTS.bold};
+  `;
+
+  return <Wrapper {...delegated}>
+    <MainText>{children}</MainText>
+    <HoverText>{children}</HoverText>
+  </Wrapper>;
 }
 
 export default AnimatedNavLink;
